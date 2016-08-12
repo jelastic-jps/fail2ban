@@ -81,9 +81,20 @@
                                     "wget -q \"https://github.com/jelastic-jps/fail2ban/raw/master/settings/mongodb-iptables.conf\" -O /etc/fail2ban/filter.d/mongodb-iptables.conf",
                                     "wget -q \"https://github.com/jelastic-jps/fail2ban/raw/master/settings/postgresql-iptables.conf\" -O /etc/fail2ban/filter.d/postgresql-iptables.conf",
                                     "wget -q \"https://github.com/jelastic-jps/fail2ban/raw/master/settings/postgresql.conf\" -O /etc/fail2ban/filter.d/postgresql.conf",
-                                    "mkdir -p /var/log/nginx && touch /var/log/fail2ban.log && touch /var/log/secure.log && touch /var/log/nginx/error.log && touch /var/log/nginx/access.log",
-                                    "mkdir -p /var/log/apache2 && touch /var/log/apache2/error_log && touch /var/log/apache2/access_log && mkdir -p /var/log/squid && touch /var/log/squid/access.log && touch /var/log/vsftpd.log",
-                                    "touch /var/log/mail.warn && touch /var/log/mail.log && touch /var/log/security.log && touch /var/log/daemon.log && touch /var/log/haproxy.log",
+
+                                    "mkdir -p /var/log/httpd && touch /var/log/httpd/dummy-host.jelastic.com-error_log && touch /var/log/httpd/dummy-host.jelastic.com-access_log",
+                                    "mkdir -p /var/log/mysql && touch /var/log/mysql/mysqld.log",
+                                    "mkdir -p /var/lib/pgsql/data/pg_log && touch /var/lib/pgsql/data/pg_log/postgresql.log",
+                                    "mkdir -p /var/log/mongodb && touch /var/log/mongodb/mongod.log",
+                                    "mkdir -p /opt/repo/logs && touch /opt/repo/logs/haproxy.log",
+                                    "mkdir -p /var/log/nginx && touch /var/log/nginx/error.log && touch /var/log/nginx/access.log",
+                                    "mkdir -p /var/log/apache2 && touch /var/log/apache2/error_log && touch /var/log/apache2/access_log",
+                                    "mkdir -p /var/log/squid && touch /var/log/squid/access.log",
+                                    "touch /var/log/fail2ban.log && touch /var/log/secure.log && touch /var/log/security.log && touch /var/log/vsftpd.log",
+                                    "touch /var/log/mail.warn && touch /var/log/mail.log && touch /var/log/daemon.log && touch /var/log/haproxy.log",
+
+
+                                    "sed -i 's~destemail = root@localhost~destemail = ${user.email}~' /etc/fail2ban/jail.conf",
                                     "/etc/init.d/fail2ban start"
                                 ],
                                 "nodeMission": "cp",
@@ -132,7 +143,8 @@
             "nodeGroup": [
                 "cp",
                 "bl",
-                "db"
+                "sqldb",
+                "nosqldb"
             ]
         },
         "version": "1.0.0"

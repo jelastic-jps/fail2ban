@@ -92,7 +92,7 @@
                                     "mkdir -p /var/log/squid && touch /var/log/squid/access.log",
                                     "mkdir -p /var/log/squid && touch /var/log/squid/access.log",
                                     "mkdir -p /opt/glassfish3/glassfish/domains/domain/logs && touch /opt/glassfish3/glassfish/domains/domain/logs/server.log",
-                                    "touch /var/log/fail2ban.log && touch /var/log/secure.log && touch /var/log/security.log && touch /var/log/vsftpd.log",
+                                    "touch /var/log/fail2ban.log && touch /var/log/secure.log && touch /var/log/security.log && touch /var/log/vsftpd.log && touch /var/log/mail.warn",
                                     
                                     "sed -i 's~destemail = root@localhost~destemail = ${user.email}~' /etc/fail2ban/jail.conf",
                                     "/etc/init.d/fail2ban start"
@@ -139,16 +139,8 @@
             }
         },
         "success": "Was successufully installed.",
-        "targetNodes": {
-            "nodeGroup": [
-                "cp",
-                "bl",
-                "sqldb",
-                "nosqldb"
-            ]
-        },
         "version": "1.0.0"
     },
     "jpsType": "update",
-    "jpsVersion": "0.4"
+    "jpsVersion": "0.6"
 }

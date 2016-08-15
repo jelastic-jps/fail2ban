@@ -90,10 +90,10 @@
                                     "mkdir -p /var/log/nginx && touch /var/log/nginx/error.log && touch /var/log/nginx/access.log",
                                     "mkdir -p /var/log/apache2 && touch /var/log/apache2/error_log && touch /var/log/apache2/access_log",
                                     "mkdir -p /var/log/squid && touch /var/log/squid/access.log",
+                                    "mkdir -p /var/log/squid && touch /var/log/squid/access.log",
+                                    "mkdir -p /opt/glassfish3/glassfish/domains/domain/logs && touch /opt/glassfish3/glassfish/domains/domain/logs/server.log",
                                     "touch /var/log/fail2ban.log && touch /var/log/secure.log && touch /var/log/security.log && touch /var/log/vsftpd.log",
-                                    "touch /var/log/mail.warn && touch /var/log/mail.log && touch /var/log/daemon.log && touch /var/log/haproxy.log",
-
-
+                                    
                                     "sed -i 's~destemail = root@localhost~destemail = ${user.email}~' /etc/fail2ban/jail.conf",
                                     "/etc/init.d/fail2ban start"
                                 ],

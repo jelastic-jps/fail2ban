@@ -11,4 +11,3 @@ curl -sSfL "https://github.com/jelastic-jps/fail2ban/raw/master/settings/postgre
 curl -sSfL "https://github.com/jelastic-jps/fail2ban/raw/master/settings/postgresql.conf" -o /etc/fail2ban/filter.d/postgresql.conf 2>&1
 
 sed -i "s~destemail = root@localhost~destemail = $useremail~g" /etc/fail2ban/jail.conf
-

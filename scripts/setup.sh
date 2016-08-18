@@ -12,4 +12,4 @@ curl -sSfL "https://github.com/jelastic-jps/fail2ban/raw/master/settings/postgre
 
 sed -i "s~destemail = root@localhost~destemail = $useremail~g" /etc/fail2ban/jail.conf
 
-for logfile in $(grep 'logpath =' /etc/fail2ban/jail.conf | grep -v '%' | awk -F '=' '{ print $2 }' | uniq); do ls $logfile > /dev/null 2>&1 || sed -i "s~$(echo $logfile | sed 's~[\.*^$]~\\&~g')~&\nenabled = false~g" /etc/fail2ban/jail.conf; done;
+for logfile in $(grep 'logpath =' /etc/fail2ban/jail.conf | grep -v '%' | awk -F '=' '{ print $2 }' | uniq); do ls $logfile > /dev/null 2>&1 || sed -i "s~$(echo $logfile | sed 's~[\.*^$]~\\&~g')~&\nenabled = false~g" /etc/fail2ban/jail.conf; done

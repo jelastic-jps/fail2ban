@@ -30,8 +30,8 @@
     "onInstall": [
       {
         "call": [
-          "install_fail2ban",
-          "setup_fail2ban"
+          "installFail2ban",
+          "setupFail2ban"
         ]
       }
     ],
@@ -56,7 +56,7 @@
         ]
       },
       {
-        "id": "install_fail2ban",
+        "id": "installFail2ban",
         "onCall": [
           {
             "executeShellCommands": [
@@ -73,7 +73,7 @@
         ]
       },
       {
-        "id": "setup_fail2ban",
+        "id": "setupFail2ban",
         "onCall": [
           {
             "executeShellCommands": [

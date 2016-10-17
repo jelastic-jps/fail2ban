@@ -10,6 +10,11 @@
     "targetNodes": {
      "nodeGroup": "*"
     },
+    "globals" : {
+      "installScript" : "https://github.com/jelastic-jps/fail2ban/raw/master/scripts/install.sh",
+      "setupScript" : "https://github.com/jelastic-jps/fail2ban/raw/master/scripts/setup.sh",
+      "removeScript" : "https://github.com/jelastic-jps/fail2ban/raw/master/scripts/remove.sh",
+    },
     "menu": [
       {
         "caption": "Remove the IP from the Ban list",
@@ -56,7 +61,7 @@
             "execCmd": [
               {
                 "commands": [
-                  "curl -sSfL \"https://github.com/jelastic-jps/fail2ban/raw/master/scripts/install.sh\" -o ${SERVER_SCRIPTS}/install.sh 2>&1",
+                  "curl -sSfL \"${globals.installScript}\" -o ${SERVER_SCRIPTS}/install.sh 2>&1",
                   "/bin/bash ${SERVER_SCRIPTS}/install.sh"
                 ],
                 "nodeGroup": "${targetNodes.nodeGroup}",
@@ -73,7 +78,7 @@
             "execCmd": [
               {
                 "commands": [
-                  "curl -sSfL \"https://github.com/jelastic-jps/fail2ban/raw/master/scripts/setup.sh\" -o ${SERVER_SCRIPTS}/setup.sh 2>&1",
+                  "curl -sSfL \"${globals.setupScript}\" -o ${SERVER_SCRIPTS}/setup.sh 2>&1",
                   "/bin/bash ${SERVER_SCRIPTS}/setup.sh \"${user.email}\""
                 ],
                 "nodeGroup": "${targetNodes.nodeGroup}",
@@ -90,7 +95,7 @@
             "execCmd": [
               {
                 "commands": [
-                  "curl -sSfL \"https://github.com/jelastic-jps/fail2ban/raw/master/scripts/remove.sh\" -o ${SERVER_SCRIPTS}/remove.sh 2>&1",
+                  "curl -sSfL \"${globals.removeScript}\" -o ${SERVER_SCRIPTS}/remove.sh 2>&1",
                   "/bin/bash ${SERVER_SCRIPTS}/remove.sh"
                 ],
                 "nodeGroup": "${targetNodes.nodeGroup}",

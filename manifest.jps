@@ -14,6 +14,7 @@
       "installScript" : "https://github.com/jelastic-jps/fail2ban/raw/master/scripts/install.sh",
       "setupScript" : "https://github.com/jelastic-jps/fail2ban/raw/master/scripts/setup.sh",
       "removeScript" : "https://github.com/jelastic-jps/fail2ban/raw/master/scripts/remove.sh",
+      "documentationLink" : "http://www.fail2ban.org/wiki/index.php/Manual"
     },
     "menu": [
       {
@@ -120,7 +121,7 @@
         ]
       }
     },
-    "success": "Addon was successufully installed with default Jelastic configuration. If you desire to set custom behaviour for your environment - please refer to ducumentation",
+    "success": "Addon was successufully installed with default Jelastic configuration. If you desire to set custom behaviour for your environment - please please refer to <a href='${globals.documentationLink}' target='_blank'>ducumentation</a>",
     "version": "0.9.6"
   },
   "jpsType": "update",

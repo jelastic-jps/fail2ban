@@ -8,13 +8,7 @@
     "homepage": "http://www.fail2ban.org/",
     "logo": "https://github.com/jelastic-jps/fail2ban/raw/master/images/Fail2Ban.png",
     "targetNodes": {
-      "nodeGroup": [
-        "cp",
-        "bl",
-        "nosqldb",
-        "docker",
-        "sqldb"
-      ]
+     "nodeGroup": "*"
     },
     "menu": [
       {
@@ -43,7 +37,7 @@
         "id": "removeIP",
         "onCall": [
           {
-            "executeShellCommands": [
+            "execCmd": [
               {
                 "commands": [
                   "for jail in $(fail2ban-client status | awk -F 'Jail list:' '{ print $2}' | grep -oE '[a-z0-9\\-]*'); do fail2ban-client set $jail unbanip ${this.bannedip} 2>&1 | echo '${this.bannedip} was unbanned at '$jail; done"
@@ -59,7 +53,7 @@
         "id": "installFail2ban",
         "onCall": [
           {
-            "executeShellCommands": [
+            "execCmd": [
               {
                 "commands": [
                   "curl -sSfL \"https://github.com/jelastic-jps/fail2ban/raw/master/scripts/install.sh\" -o ${SERVER_SCRIPTS}/install.sh 2>&1",
@@ -76,7 +70,7 @@
         "id": "setupFail2ban",
         "onCall": [
           {
-            "executeShellCommands": [
+            "execCmd": [
               {
                 "commands": [
                   "curl -sSfL \"https://github.com/jelastic-jps/fail2ban/raw/master/scripts/setup.sh\" -o ${SERVER_SCRIPTS}/setup.sh 2>&1",
@@ -93,7 +87,7 @@
         "id": "removeFail2Ban",
         "onCall": [
           {
-            "executeShellCommands": [
+            "execCmd": [
               {
                 "commands": [
                   "curl -sSfL \"https://github.com/jelastic-jps/fail2ban/raw/master/scripts/remove.sh\" -o ${SERVER_SCRIPTS}/remove.sh 2>&1",
@@ -121,8 +115,8 @@
         ]
       }
     },
-    "success": "Was successufully installed.",
-    "version": "1.0.0"
+    "success": "Addon was successufully installed with default Jelastic configuration. If you desire to set custom behaviour for your environment - please refer to ducumentation",
+    "version": "0.9.6"
   },
   "jpsType": "update",
   "jpsVersion": "0.6"

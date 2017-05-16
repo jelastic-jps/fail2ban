@@ -8,7 +8,32 @@
     "homepage": "http://www.fail2ban.org/",
     "logo": "https://github.com/jelastic-jps/fail2ban/raw/master/images/Fail2Ban.png",
     "targetNodes": {
-     "nodeGroup": "*"
+      "nodeType": [
+        "tomcat6",
+        "tomcat7",
+        "tomcat8",
+        "tomcat85",
+        "tomcat9",
+        "tomcat",
+        "tomee",
+        "tomee-dockerized",
+        "glassfish3",
+        "glassfish4",
+        "glassfish",
+        "jetty6",
+        "apache",
+        "apache2",
+        "nginxphp",
+        "apache2-ruby",
+        "nginx-ruby",
+        "nginx",
+        "nginx-dockerized",
+        "nginxphp-dockerized",
+        "haproxy",
+        "apache-lb",
+        "varnish",
+        "varnish-dockerized"
+      ]
     },
     "globals" : {
       "installScript" : "https://github.com/jelastic-jps/fail2ban/raw/master/scripts/install.sh",

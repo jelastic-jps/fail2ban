@@ -23,7 +23,7 @@ settings:
 
 homepage: http://www.fail2ban.org/
 logo: "${baseUrl}/images/Fail2Ban.png"
-baseUrl: https://raw.githubusercontent.com/lazarenkoalexey/fail2ban/JE-59858/
+baseUrl: https://raw.githubusercontent.com/jelastic-jps/fail2ban/master/
 
 targetNodes:
   nodeType:

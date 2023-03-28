@@ -1,4 +1,5 @@
 name: Fail2Ban
+id: fail2ban
 version: 0.9.6
 type: update
 jpsVersion: '0.8'

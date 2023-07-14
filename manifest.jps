@@ -58,6 +58,7 @@ globals:
   setupScript: "${baseUrl}/scripts/setup.sh"
   removeScript: "${baseUrl}/scripts/remove.sh"
   documentationLink: http://www.fail2ban.org/wiki/index.php/Manual
+  txtPath: /var/lib/jelastic/keys/bannedip.txt
 
 menu:
 - caption: Remove the IP from the Ban list
@@ -73,10 +74,20 @@ onInstall:
 
 onUninstall: removeFail2Ban
 
+onBeforeRedeployContainer [${targetNodes.nodeGroup}]: removeFail2Ban
+
+onAfterRedeployContainer [${targetNodes.nodeGroup}]:
+- installFail2ban
+- setupFail2ban
+- cmd [${targetNodes.nodeGroup}]: cat ${globals.txtPath}
+- removeIP:
+    bannedip: ${response.out}
+
 actions:
   removeIP:
-    cmd [${targetNodes.nodeGroup}]: for jail in $(fail2ban-client status | awk -F 'Jail list:' '{ print $2}' | grep -oE '[a-z0-9\-]*'); do fail2ban-client set $jail unbanip ${this.bannedip} 2>&1 | echo '${this.bannedip} was unbanned at '$jail; done
-    user: root
+    - cmd [${targetNodes.nodeGroup}]: echo '${this.bannedip}' > /var/lib/jelastic/keys/bannedip.txt
+    - cmd [${targetNodes.nodeGroup}]: for jail in $(fail2ban-client status | awk -F 'Jail list:' '{ print $2}' | grep -oE '[a-z0-9\-]*'); do fail2ban-client set $jail unbanip ${this.bannedip} 2>&1 | echo '${this.bannedip} was unbanned at '$jail; done
+      user: root
   installFail2ban:
     cmd [${targetNodes.nodeGroup}]:
     - curl -sSfL "${globals.installScript}" -o ${SERVER_SCRIPTS}/install.sh 2>&1

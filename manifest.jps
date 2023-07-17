@@ -1,4 +1,5 @@
 name: Fail2Ban
+id: fail2ban
 version: 0.9.6
 type: update
 jpsVersion: '0.8'
@@ -89,18 +90,18 @@ actions:
       user: root
   installFail2ban:
     cmd [${targetNodes.nodeGroup}]:
-    - curl -sSfL "${globals.installScript}" -o ${SERVER_SCRIPTS}/install.sh 2>&1
-    - "/bin/bash ${SERVER_SCRIPTS}/install.sh"
+    - curl -sSfL "${globals.installScript}" -o /var/lib/jelastic/keys/install.sh 2>&1
+    - "/bin/bash /var/lib/jelastic/keys/install.sh"
     user: root
   setupFail2ban:
     cmd [${targetNodes.nodeGroup}]:
-    - curl -sSfL "${globals.setupScript}" -o ${SERVER_SCRIPTS}/setup.sh 2>&1
-    - /bin/bash ${SERVER_SCRIPTS}/setup.sh "${user.email}"
+    - curl -sSfL "${globals.setupScript}" -o /var/lib/jelastic/keys/setup.sh 2>&1
+    - /bin/bash /var/lib/jelastic/keys/setup.sh "${user.email}" "${baseUrl}"
     user: root
   removeFail2Ban:
     cmd [${targetNodes.nodeGroup}]:
-    - curl -sSfL "${globals.removeScript}" -o ${SERVER_SCRIPTS}/remove.sh 2>&1
-    - "/bin/bash ${SERVER_SCRIPTS}/remove.sh"
+    - curl -sSfL "${globals.removeScript}" -o /var/lib/jelastic/keys/remove.sh 2>&1
+    - "/bin/bash /var/lib/jelastic/keys/remove.sh"
     user: root
 
 success: Addon was successufully installed with default Jelastic configuration. If

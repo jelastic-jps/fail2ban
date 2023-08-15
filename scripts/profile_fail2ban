@@ -1,0 +1,4 @@
+# Bash only checks the first word of a command for an alias, any words after that are not checked.
+alias sudo='sudo '
+
+alias fail2ban-client='sudo /usr/local/bin/fail2ban-client'

@@ -94,6 +94,10 @@ actions:
     cmd [${targetNodes.nodeGroup}]:
     - curl -sSfL "${globals.installScript}" -o /var/lib/jelastic/keys/install.sh 2>&1
     - "/bin/bash /var/lib/jelastic/keys/install.sh"
+    - curl -sSfL "${baseUrl}/scripts/sudo_fail2ban" -o /etc/sudoers.d/fail2ban
+    - chmod 640 /etc/sudoers.d/fail2ban;
+    - curl -fsSL '${baseUrl}/scripts/profile_fail2ban' -o /etc/profile.d/fail2ban.sh;
+    - chown -R jelastic /etc/fail2ban
     user: root
   setupFail2ban:
     cmd [${targetNodes.nodeGroup}]:
@@ -104,6 +108,7 @@ actions:
     cmd [${targetNodes.nodeGroup}]:
     - curl -sSfL "${globals.removeScript}" -o /var/lib/jelastic/keys/remove.sh 2>&1
     - "/bin/bash /var/lib/jelastic/keys/remove.sh"
+    - rm -f /etc/sudoers.d/fail2ban /etc/profile.d/fail2ban.sh
     user: root
 
 success: Addon was successufully installed with default Jelastic configuration. If

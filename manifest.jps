@@ -85,9 +85,11 @@ onAfterRedeployContainer [${targetNodes.nodeGroup}]:
 
 actions:
   removeIP:
-    - cmd [${targetNodes.nodeGroup}]: echo '${this.bannedip}' > /var/lib/jelastic/keys/bannedip.txt
-    - cmd [${targetNodes.nodeGroup}]: for jail in $(fail2ban-client status | awk -F 'Jail list:' '{ print $2}' | grep -oE '[a-z0-9\-]*'); do fail2ban-client set $jail unbanip ${this.bannedip} 2>&1 | echo '${this.bannedip} was unbanned at '$jail; done
+    - cmd [${targetNodes.nodeGroup}]: echo '${this.bannedip}' > /var/lib/jelastic/keys/bannedip.txt; for jail in $(fail2ban-client status | awk -F 'Jail list:' '{ print $2}' | grep -oE '[a-z0-9\-]*'); do fail2ban-client set $jail unbanip ${this.bannedip} 2>&1 | echo '${this.bannedip} was unbanned at '$jail; done
       user: root
+    - message: ${response.out}.
+      script: |
+        return {result: 'info', message: message.replace(/\n/g, '  \n')}
   installFail2ban:
     cmd [${targetNodes.nodeGroup}]:
     - curl -sSfL "${globals.installScript}" -o /var/lib/jelastic/keys/install.sh 2>&1

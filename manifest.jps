@@ -78,7 +78,7 @@ menu:
 
 
 buttons:
-- caption: Check IP is banned
+- caption: Check if IP is banned
   confirmText: You are going to check if the IP is banned. Continue?
   loadingText: Checking..
   procedure: checkIP

@@ -68,6 +68,24 @@ menu:
   settings: removeSettings
   successText: The IP was removed.
 
+buttons:
+  menu:
+  - caption: Status
+    confirmText: You are going to check Fail2Ban service status. Continue?
+    loadingText: Checking..
+    procedure: statusFail2ban
+  - caption: Restart
+    confirmText: You are going to restart Fail2Ban. Continue?
+    loadingText: Restarting..
+    procedure: restartFail2ban
+    successText: Fail2Ban was restarted.
+  - caption: Stop
+    confirmText: You are going to stop Fail2Ban. Continue?
+    loadingText: Stopping..
+    procedure: stopFail2ban
+    successText: Fail2Ban was stopped.
+
+
 onInstall:
 - installFail2ban
 - setupFail2ban
@@ -110,6 +128,32 @@ actions:
     - "/bin/bash /var/lib/jelastic/keys/remove.sh"
     - rm -f /etc/sudoers.d/fail2ban /etc/profile.d/fail2ban.sh
     user: root
+  restartFail2ban:
+    - cmd [${targetNodes.nodeGroup}]:
+      - systemctl restart fail2ban 2>/dev/null 1>/dev/null
+      - systemctl is-active fail2ban
+      - echo -n ""
+      user: root
+    - message: Fail2Ban was restarted. Service is ${response.out}.
+      script: |
+        return {result: 'success', message: message.replace(/\n/g, '  \n')}
+  stopFail2ban:
+    - cmd [${targetNodes.nodeGroup}]:
+      - systemctl stop fail2ban  2>/dev/null 1>/dev/null
+      - systemctl is-active fail2ban
+      - echo -n ""
+      user: root
+    - message: Fail2Ban was stopped. Service is ${response.out}.
+      script: |
+        return {result: 'success', message: message.replace(/\n/g, '  \n')}
+  statusFail2ban:
+    - cmd [${targetNodes.nodeGroup}]:
+      - systemctl is-active fail2ban
+      - echo -n ""
+      user: root
+    - message: Fail2Ban service is ${response.out}.
+      script: |
+        return {result: 'success', message: message.replace(/\n/g, '  \n')}
 
 success: Addon was successufully installed with default Jelastic configuration. If
   you desire to set custom behaviour for your environment - please please refer to

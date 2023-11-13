@@ -23,7 +23,7 @@ settings:
       regexText: Not valid IP address.
 
 homepage: http://www.fail2ban.org/
-logo: "${baseUrl}/images/Fail2Ban.png"
+logo: /images/Fail2Ban.png
 baseUrl: https://raw.githubusercontent.com/jelastic-jps/fail2ban/master/
 
 targetNodes:

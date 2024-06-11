@@ -24,7 +24,7 @@ settings:
 
 homepage: http://www.fail2ban.org/
 logo: /images/Fail2Ban.png
-baseUrl: https://raw.githubusercontent.com/jelastic-jps/fail2ban/master/
+baseUrl: https://raw.githubusercontent.com/dimkadt/fail2ban/master/
 
 targetNodes:
   nodeType:

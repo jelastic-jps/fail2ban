@@ -61,12 +61,36 @@ globals:
   txtPath: /var/lib/jelastic/keys/bannedip.txt
 
 menu:
-- caption: Remove the IP from the Ban list
+- caption: Service Status
+  confirmText: You are going to check Fail2Ban service status. Continue?
+  loadingText: Checking..
+  procedure: statusFail2ban
+- caption: Service Restart
+  confirmText: You are going to restart Fail2Ban. Continue?
+  loadingText: Restarting..
+  procedure: restartFail2ban
+  successText: Fail2Ban was restarted.
+- caption: Service Stop
+  confirmText: You are going to stop Fail2Ban. Continue?
+  loadingText: Stopping..
+  procedure: stopFail2ban
+  successText: Fail2Ban was stopped.
+
+
+buttons:
+- caption: Check if IP is banned
+  confirmText: You are going to check if the IP is banned. Continue?
+  loadingText: Checking..
+  procedure: checkIP
+  settings: removeSettings
+  successText: The IP was removed.
+- caption: Unban IP
   confirmText: You are going to remove the IP from the Ban list. Continue?
   loadingText: Performing the IP removing..
   procedure: removeIP
   settings: removeSettings
   successText: The IP was removed.
+
 
 onInstall:
 - installFail2ban
@@ -85,13 +109,25 @@ onAfterRedeployContainer [${targetNodes.nodeGroup}]:
 
 actions:
   removeIP:
-    - cmd [${targetNodes.nodeGroup}]: echo '${this.bannedip}' > /var/lib/jelastic/keys/bannedip.txt
-    - cmd [${targetNodes.nodeGroup}]: for jail in $(fail2ban-client status | awk -F 'Jail list:' '{ print $2}' | grep -oE '[a-z0-9\-]*'); do fail2ban-client set $jail unbanip ${this.bannedip} 2>&1 | echo '${this.bannedip} was unbanned at '$jail; done
+    - cmd [${targetNodes.nodeGroup}]: echo '${this.bannedip}' > /var/lib/jelastic/keys/bannedip.txt; for jail in $(fail2ban-client status | awk -F 'Jail list:' '{ print $2}' | grep -oE '[a-z0-9\-]*'); do fail2ban-client set $jail unbanip ${this.bannedip} 2>&1 | echo '${this.bannedip} was unbanned at '$jail; done
       user: root
+    - message: ${response.out}.
+      script: |
+        return {result: 'info', message: message.replace(/\n/g, '  \n')}
+  checkIP:
+    - cmd [${targetNodes.nodeGroup}]: echo -n "${this.bannedip} "; list="$(fail2ban-client banned ${this.bannedip} | grep -v '[[]]')"; if [ $? -ne 0 ]; then echo "is not banned"; else echo "is banned in ${list}";fi;
+      user: root
+    - message: ${response.out}.
+      script: |
+        return {result: 'info', message: message.replace(/\n/g, '  \n')}
   installFail2ban:
     cmd [${targetNodes.nodeGroup}]:
     - curl -sSfL "${globals.installScript}" -o /var/lib/jelastic/keys/install.sh 2>&1
     - "/bin/bash /var/lib/jelastic/keys/install.sh"
+    - curl -sSfL "${baseUrl}/scripts/sudo_fail2ban" -o /etc/sudoers.d/fail2ban
+    - chmod 640 /etc/sudoers.d/fail2ban;
+    - curl -fsSL '${baseUrl}/scripts/profile_fail2ban' -o /etc/profile.d/fail2ban.sh;
+    - chown -R jelastic /etc/fail2ban
     user: root
   setupFail2ban:
     cmd [${targetNodes.nodeGroup}]:
@@ -102,7 +138,34 @@ actions:
     cmd [${targetNodes.nodeGroup}]:
     - curl -sSfL "${globals.removeScript}" -o /var/lib/jelastic/keys/remove.sh 2>&1
     - "/bin/bash /var/lib/jelastic/keys/remove.sh"
+    - rm -f /etc/sudoers.d/fail2ban /etc/profile.d/fail2ban.sh
     user: root
+  restartFail2ban:
+    - cmd [${targetNodes.nodeGroup}]:
+      - systemctl restart fail2ban 2>/dev/null 1>/dev/null
+      - systemctl is-active fail2ban
+      - echo -n ""
+      user: root
+    - message: Fail2Ban was restarted. Service is ${response.out}.
+      script: |
+        return {result: 'success', message: message.replace(/\n/g, '  \n')}
+  stopFail2ban:
+    - cmd [${targetNodes.nodeGroup}]:
+      - systemctl stop fail2ban  2>/dev/null 1>/dev/null
+      - systemctl is-active fail2ban
+      - echo -n ""
+      user: root
+    - message: Fail2Ban was stopped. Service is ${response.out}.
+      script: |
+        return {result: 'success', message: message.replace(/\n/g, '  \n')}
+  statusFail2ban:
+    - cmd [${targetNodes.nodeGroup}]:
+      - systemctl is-active fail2ban
+      - echo -n ""
+      user: root
+    - message: Fail2Ban service is ${response.out}.
+      script: |
+        return {result: 'success', message: message.replace(/\n/g, '  \n')}
 
 success: Addon was successufully installed with default Jelastic configuration. If
   you desire to set custom behaviour for your environment - please please refer to

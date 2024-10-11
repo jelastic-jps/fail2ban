@@ -10,6 +10,7 @@ curl -sSfL "${baseUrl}/settings/mongodb-iptables.conf" -o /etc/fail2ban/filter.d
 curl -sSfL "${baseUrl}/settings/postgresql-iptables.conf" -o /etc/fail2ban/filter.d/postgresql-iptables.conf 2>&1
 curl -sSfL "${baseUrl}/settings/postgresql.conf" -o /etc/fail2ban/filter.d/postgresql.conf 2>&1
 sed -i "s~destemail = root@localhost~destemail = $useremail~g" /etc/fail2ban/jail.conf
+chown jelastic -R /etc/fail2ban/
 
 for logfile in $(grep 'logpath =' /etc/fail2ban/jail.conf | grep -v '%' | awk -F '=' '{ print $2 }' | sort -u); do ls $logfile > /dev/null 2>&1 || sed -i "s~$(echo $logfile | sed 's~[\.*^$]~\\&~g')~&\nenabled = false~g" /etc/fail2ban/jail.conf; done;
 systemctl daemon-reload

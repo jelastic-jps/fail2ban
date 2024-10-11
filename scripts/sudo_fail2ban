@@ -1,0 +1,5 @@
+Cmnd_Alias FAIL2BAN_CLIENT            = /usr/local/bin/fail2ban-client *
+Cmnd_Alias FAIL2BAN_SYSTEMCTL         = /usr/bin/systemctl restart fail2ban,          /usr/bin/systemctl stop fail2ban, /usr/bin/systemctl start fail2ban,            /usr/bin/systemctl status fail2ban 
+Cmnd_Alias FAIL2BAN_SYSTEMCTL_SERVICE = /usr/bin/systemctl restart fail2ban.service,  /usr/bin/systemctl stop fail2ban, /usr/bin/systemctl start fail2ban.service,    /usr/bin/systemctl status fail2ban.service
+
+%ssh-access ALL = NOPASSWD: FAIL2BAN_CLIENT, FAIL2BAN_SYSTEMCTL, FAIL2BAN_SYSTEMCTL_SERVICE

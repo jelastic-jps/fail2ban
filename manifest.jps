@@ -7,10 +7,7 @@ jpsVersion: '0.8'
 categories:
 - apps/others
 - apps/management-and-monitoring
-description: Fail2Ban scans log files like and bans IP addresses that make too many
-  password failures. It updates firewall rules to reject the IP address. These rules
-  can be defined by the user. Fail2Ban can read multiple log files such as sshd or
-  Apache Web server ones.
+description: Fail2Ban is an intrusion prevention software framework that protects servers from brute-force attacks. It scans log files and bans IP addresses that make to many failed login attempts. The exact actions are customizable and temporary (made through firewall rules adjustments).
 
 settings:
   removeSettings:
@@ -22,7 +19,7 @@ settings:
       regex: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
       regexText: Not valid IP address.
 
-homepage: http://www.fail2ban.org/
+homepage: https://github.com/fail2ban/fail2ban
 logo: /images/Fail2Ban.png
 baseUrl: https://raw.githubusercontent.com/jelastic-jps/fail2ban/master/
 
@@ -69,12 +66,12 @@ menu:
   confirmText: You are going to restart Fail2Ban. Continue?
   loadingText: Restarting..
   procedure: restartFail2ban
-  successText: Fail2Ban was restarted.
+  successText: Fail2Ban has been restarted.
 - caption: Service Stop
   confirmText: You are going to stop Fail2Ban. Continue?
   loadingText: Stopping..
   procedure: stopFail2ban
-  successText: Fail2Ban was stopped.
+  successText: Fail2Ban has been stopped.
 
 
 buttons:
@@ -85,11 +82,11 @@ buttons:
   settings: removeSettings
   successText: The IP was removed.
 - caption: Unban IP
-  confirmText: You are going to remove the IP from the Ban list. Continue?
-  loadingText: Performing the IP removing..
+  confirmText: You are going to remove the IP from the "ban" list. Continue?
+  loadingText: Removing the IP..
   procedure: removeIP
   settings: removeSettings
-  successText: The IP was removed.
+  successText: The IP has been removed from the "ban" list.
 
 
 onInstall:
@@ -167,6 +164,5 @@ actions:
       script: |
         return {result: 'success', message: message.replace(/\n/g, '  \n')}
 
-success: Addon was successufully installed with default Jelastic configuration. If
-  you desire to set custom behaviour for your environment - please please refer to
-  [documentation](${globals.documentationLink})
+success: The Fail2Ban add-on has been installed successfully. If you need to customize the default behavior for your environment - please refer to
+  [documentation](${globals.documentationLink}).

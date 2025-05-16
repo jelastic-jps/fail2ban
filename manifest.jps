@@ -7,7 +7,9 @@ jpsVersion: '0.8'
 categories:
 - apps/others
 - apps/management-and-monitoring
-description: Fail2Ban is an intrusion prevention software framework that protects servers from brute-force attacks. It scans log files and bans IP addresses that make to many failed login attempts. The exact actions are customizable and temporary (made through firewall rules adjustments).
+description:
+  text: Fail2Ban is an intrusion prevention software framework that protects servers from brute-force attacks. It scans log files and bans IP addresses that make too many failed login attempts. The exact actions are customizable and temporary (made through firewall rules adjustments).
+  short: Fail2Ban is an intrusion prevention software framework that protects servers from brute-force attacks.
 
 settings:
   removeSettings:
@@ -80,7 +82,7 @@ buttons:
   loadingText: Checking..
   procedure: checkIP
   settings: removeSettings
-  successText: The IP was removed.
+  successText: The IP has been checked.
 - caption: Unban IP
   confirmText: You are going to remove the IP from the "ban" list. Continue?
   loadingText: Removing the IP..
@@ -143,7 +145,7 @@ actions:
       - systemctl is-active fail2ban
       - echo -n ""
       user: root
-    - message: Fail2Ban was restarted. Service is ${response.out}.
+    - message: Fail2Ban has been restarted. Service is ${response.out}.
       script: |
         return {result: 'success', message: message.replace(/\n/g, '  \n')}
   stopFail2ban:
@@ -152,7 +154,7 @@ actions:
       - systemctl is-active fail2ban
       - echo -n ""
       user: root
-    - message: Fail2Ban was stopped. Service is ${response.out}.
+    - message: Fail2Ban has been stopped. Service is ${response.out}.
       script: |
         return {result: 'success', message: message.replace(/\n/g, '  \n')}
   statusFail2ban:
@@ -164,5 +166,4 @@ actions:
       script: |
         return {result: 'success', message: message.replace(/\n/g, '  \n')}
 
-success: The Fail2Ban add-on has been installed successfully. If you need to customize the default behavior for your environment - please refer to
-  [documentation](${globals.documentationLink}).
+success: The Fail2Ban add-on has been installed successfully. To customize add-on behavior for your environment, please refer to the [documentation](${globals.documentationLink}).

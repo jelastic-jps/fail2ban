@@ -26,31 +26,31 @@ logo: /images/Fail2Ban.png
 baseUrl: https://raw.githubusercontent.com/jelastic-jps/fail2ban/master/
 
 targetNodes:
-  nodeType:
-  - tomcat6
-  - tomcat7
-  - tomcat8
-  - tomcat85
-  - tomcat9
-  - tomcat
-  - tomee
-  - tomee-dockerized
-  - glassfish3
-  - glassfish4
-  - glassfish
-  - jetty6
-  - apache
-  - apache2
-  - nginxphp
-  - apache2-ruby
-  - nginx-ruby
-  - nginx
-  - nginx-dockerized
-  - nginxphp-dockerized
-  - haproxy
-  - apache-lb
-  - varnish
-  - varnish-dockerized
+  nodeType: [
+    apache-lb, apache-balancer,
+    apache, apache2,
+    apache-python, apache2-python,
+    apache-ruby, apache2-ruby, nginxruby, nginx-ruby,
+    dockerengine,
+    dotnet, golang,
+    javaengine,
+    jenkins,
+    jetty,
+    lemp, litespeedphp, litespeedadc, llsmp,
+    logstash,
+    maven, maven3,
+    memcached-dockerized, memcached,
+    mysql, mariadb-dockerized, perconadb, pgpool2, pgpool2-4,
+    nginx-dockerized, nginx,
+    nginxphp-dockerized, nginxphp,
+    nodejs,
+    opensearch, opensearchdashboards,
+    postgresql, proxysql,
+    springboot,
+    storage,
+    tomcat, tomee-dockerized, tomee,
+    varnish-dockerized, varnish, haproxy
+  ]
 
 globals:
   installScript: "${baseUrl}/scripts/install.sh"
